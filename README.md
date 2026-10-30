@@ -1,16 +1,76 @@
-# React + Vite
+# Pokémon Team Manager 🔴⚡
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Een dynamische Pokémon webapplicatie gebouwd met **React**, **Vite**, **React Router** en de officiële **PokéAPI** ([pokeapi.co](https://pokeapi.co/)).
 
-Currently, two official plugins are available:
+Gemaakt als schoolopdracht voor de opleiding **mbo niveau 4 Software Developer**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🌟 Functionaliteiten
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Routing & Navigatie**:
+   - Vloeiende navigatie zonder paginareload met `react-router-dom` (`HashRouter` voor volledige GitHub Pages compatibiliteit).
+   - Vaste `Header` en `Navigation` op alle pagina's met actieve linkindicator.
 
-## Expanding the ESLint configuration
+2. **PokéAPI Data ophalen**:
+   - Automatisch ophalen van de eerste 20 Pokémon via `https://pokeapi.co/api/v2/pokemon?limit=20`.
+   - Duidelijke laadindicator (*"Aan het laden..."*) en foutafhandeling indien de API onbereikbaar is.
+   - Live zoekfilter om snel Pokémon op naam te vinden.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3. **Herbruikbare Pokémon Kaarten**:
+   - `PokemonCard` component gestyled met CSS Grid en type-badges.
+   - Toont Pokémon ID, officiële artwork, naam, elementtypes en een directe doorklikknop.
+
+4. **Dynamische Detailpagina**:
+   - Route op basis van URL-parameters met `useParams()` (`#/pokemon/:name`).
+   - Uitgebreide statistieken: HP, Attack, Defense, Speed (met geanimeerde progress-balken).
+   - Fysieke eigenschappen: gewicht (kg) en lengte (m).
+   - Direct toevoegen of verwijderen van teams vanaf de detailpagina.
+
+5. **Pokémon Teams Beheer**:
+   - Zelf teams aanmaken met een eigen naam.
+   - Maximaal 6 Pokémon per team.
+   - Duplicaatpreventie (dezelfde Pokémon kan niet tweemaal in hetzelfde team zitten).
+   - Pokémon toevoegen via de detailpagina of via de snelle selectielijst op de teampagina.
+   - Teams en teamleden verwijderen.
+   - Volledig behoud van teams via `localStorage` (blijft bewaard na F5 / herladen).
+
+6. **Responsive Styling**:
+   - Aangepast voor laptops, tablets en smartphones.
+   - Duidelijk leesbare dropdowns met lichte achtergrond en contrastrijke tekst.
+
+---
+
+## 🚀 Lokaal starten
+
+1. Repository klonen:
+   ```bash
+   git clone https://github.com/mouiz76/pokimon.git
+   cd pokimon
+   ```
+
+2. Dependencies installeren:
+   ```bash
+   npm install
+   ```
+
+3. Ontwikkelserver starten:
+   ```bash
+   npm run dev
+   ```
+   Open `http://localhost:5173/` in je browser.
+
+4. Productie-build testen:
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 🛠️ Gebruikte Technologieën
+
+- **React 19**
+- **Vite 8**
+- **React Router DOM 7** (`HashRouter`)
+- **PokéAPI v2**
+- **Vanilla CSS**
