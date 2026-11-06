@@ -15,6 +15,9 @@ function Home() {
             <Link to="/list" className="btn btn-primary">
               Bekijk Pokémon Lijst
             </Link>
+            <Link to="/favorites" className="btn btn-secondary">
+              Mijn Favorieten
+            </Link>
             <Link to="/teams" className="btn btn-outline">
               Beheer Mijn Teams
             </Link>
@@ -32,6 +35,18 @@ function Home() {
           </p>
           <Link to="/list" className="feature-link">
             Bekijk lijst →
+          </Link>
+        </div>
+
+        <div className="feature-card">
+          <div className="feature-icon">❤️</div>
+          <h3>Favorieten Opslaan</h3>
+          <p>
+            Sla je favoriete Pokémon op met één klik op het hartje en bewaar ze
+            automatisch in localStorage.
+          </p>
+          <Link to="/favorites" className="feature-link">
+            Favorieten bekijken →
           </Link>
         </div>
 

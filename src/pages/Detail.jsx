@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-function Detail({ teams = [], onAddToTeam, onCreateTeam, onDeleteTeam }) {
+function Detail({ teams = [], onAddToTeam, onCreateTeam, onDeleteTeam, isFavorite, onToggleFavorite }) {
   const { name, id } = useParams();
   const pokemonIdentifier = name || id;
 
@@ -131,6 +131,9 @@ function Detail({ teams = [], onAddToTeam, onCreateTeam, onDeleteTeam }) {
   const defense = getStat('defense');
   const speed = getStat('speed');
 
+  const isFav =
+    typeof isFavorite === 'function' ? isFavorite(pokemon.name) : Boolean(isFavorite);
+
   return (
     <div className="page-container">
       <div className="detail-navigation">
@@ -141,7 +144,26 @@ function Detail({ teams = [], onAddToTeam, onCreateTeam, onDeleteTeam }) {
 
       <div className="detail-card">
         <div className="detail-header">
-          <span className="detail-id">#{String(pokemon.id).padStart(3, '0')}</span>
+          <div className="detail-header-top">
+            <span className="detail-id">#{String(pokemon.id).padStart(3, '0')}</span>
+            {onToggleFavorite && (
+              <button
+                type="button"
+                onClick={() =>
+                  onToggleFavorite({
+                    id: pokemon.id,
+                    name: pokemon.name,
+                    image,
+                    types: pokemon.types.map((t) => t.type.name),
+                  })
+                }
+                className={`btn-favorite-detail ${isFav ? 'active' : ''}`}
+                title={isFav ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
+              >
+                {isFav ? '❤️ In favorieten' : '🤍 Voeg toe aan favorieten'}
+              </button>
+            )}
+          </div>
           <h2 className="detail-title">{pokemon.name}</h2>
           <div className="card-types">
             {pokemon.types.map((t) => (

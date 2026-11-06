@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import Pokemon from "../components/Pokemon";
 
-function List() {
+function List({ favorites = [], onToggleFavorite }) {
   const [pokemons, setPokemons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -26,9 +27,12 @@ function List() {
       });
   }, []);
 
-  const filteredPokemons = pokemons.filter((p) =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const isFavorite = (name) =>
+    favorites.some((f) => f.name.toLowerCase() === name.toLowerCase());
+
+  const filteredPokemons = pokemons
+    .filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter((p) => (onlyFavorites ? isFavorite(p.name) : true));
 
   return (
     <div className="page-container">
@@ -45,6 +49,13 @@ function List() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
+        <button
+          type="button"
+          onClick={() => setOnlyFavorites((prev) => !prev)}
+          className={`btn ${onlyFavorites ? 'btn-primary' : 'btn-secondary'} btn-filter`}
+        >
+          {onlyFavorites ? '❤️ Alleen favorieten actief' : `🤍 Toon alleen favorieten (${favorites.length})`}
+        </button>
       </div>
 
       {loading && (
@@ -62,13 +73,22 @@ function List() {
       {!loading && !error && (
         <ul className="pokemon-grid">
           {filteredPokemons.map((p) => (
-            <Pokemon key={p.name} url={p.url} />
+            <Pokemon
+              key={p.name}
+              url={p.url}
+              isFavorite={isFavorite}
+              onToggleFavorite={onToggleFavorite}
+            />
           ))}
         </ul>
       )}
 
       {!loading && !error && filteredPokemons.length === 0 && (
-        <p className="no-results">Geen Pokémon gevonden voor "{searchTerm}".</p>
+        <p className="no-results">
+          {onlyFavorites
+            ? 'Geen favoriete Pokémon gevonden in deze lijst.'
+            : `Geen Pokémon gevonden voor "${searchTerm}".`}
+        </p>
       )}
     </div>
   );

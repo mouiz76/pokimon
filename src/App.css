@@ -177,6 +177,10 @@ main {
 /* ==================== Zoek / Filter balk ==================== */
 .filter-bar {
   margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .search-input,
@@ -788,6 +792,115 @@ select:focus {
 
 .feature-link:hover {
   text-decoration: underline;
+}
+
+/* ==================== Favorieten ==================== */
+.btn-favorite {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e3e1dc;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  line-height: 1;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.btn-favorite:hover {
+  transform: scale(1.15);
+  background: #ffffff;
+  border-color: #f87171;
+}
+
+.btn-favorite.active {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+
+.detail-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.btn-favorite-detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: white;
+  border: 1px solid #d4d1cb;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #1b1b1f;
+  transition: all 0.2s ease;
+}
+
+.btn-favorite-detail:hover {
+  border-color: #ef4444;
+  color: #b91c1c;
+  background: #fef2f2;
+}
+
+.btn-favorite-detail.active {
+  background: #fef2f2;
+  border-color: #f87171;
+  color: #b91c1c;
+}
+
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #c8322b;
+  color: white;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  margin-left: 6px;
+  min-width: 16px;
+  height: 18px;
+}
+
+.header-with-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.count-pill {
+  display: inline-block;
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.empty-icon {
+  font-size: 44px;
+  margin-bottom: 12px;
+}
+
+.fav-team-add {
+  width: 100%;
+  margin-top: 6px;
 }
 
 /* ==================== Footer ==================== */

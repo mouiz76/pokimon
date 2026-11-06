@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PokemonCard from "./PokemonCard";
 
-function Pokemon({ url }) {
+function Pokemon({ url, isFavorite, onToggleFavorite }) {
   const [pokemon, setPokemon] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -45,6 +45,9 @@ function Pokemon({ url }) {
     pokemon.sprites?.other?.["official-artwork"]?.front_default ||
     pokemon.sprites?.front_default;
 
+  const isFav =
+    typeof isFavorite === "function" ? isFavorite(pokemon.name) : Boolean(isFavorite);
+
   return (
     <li className="pokemon-list-item">
       <PokemonCard
@@ -52,6 +55,8 @@ function Pokemon({ url }) {
         name={pokemon.name}
         image={image}
         types={pokemon.types.map((t) => t.type.name)}
+        isFavorite={isFav}
+        onToggleFavorite={onToggleFavorite}
       />
     </li>
   );

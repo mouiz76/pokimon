@@ -8,6 +8,7 @@ import Home from './pages/Home.jsx';
 import List from './pages/List.jsx';
 import Detail from './pages/Detail.jsx';
 import Teams from './pages/Teams.jsx';
+import Favorites from './pages/Favorites.jsx';
 
 function App() {
   // Haal de opgeslagen teams op uit localStorage bij het opstarten
@@ -21,6 +22,17 @@ function App() {
     }
   });
 
+  // Haal de opgeslagen favorieten op uit localStorage bij het opstarten
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const savedFavorites = localStorage.getItem('pokemon_favorites');
+      return savedFavorites ? JSON.parse(savedFavorites) : [];
+    } catch (error) {
+      console.error('Fout bij laden van favorieten uit localStorage:', error);
+      return [];
+    }
+  });
+
   // Sla teams automatisch op in localStorage zodra de state verandert
   useEffect(() => {
     try {
@@ -29,6 +41,40 @@ function App() {
       console.error('Fout bij opslaan in localStorage:', error);
     }
   }, [teams]);
+
+  // Sla favorieten automatisch op in localStorage zodra de state verandert
+  useEffect(() => {
+    try {
+      localStorage.setItem('pokemon_favorites', JSON.stringify(favorites));
+    } catch (error) {
+      console.error('Fout bij opslaan van favorieten in localStorage:', error);
+    }
+  }, [favorites]);
+
+  // Functie om favoriet toe te voegen of te verwijderen
+  const handleToggleFavorite = (pokemon) => {
+    setFavorites((prev) => {
+      const exists = prev.some(
+        (f) => f.name.toLowerCase() === pokemon.name.toLowerCase()
+      );
+      if (exists) {
+        return prev.filter(
+          (f) => f.name.toLowerCase() !== pokemon.name.toLowerCase()
+        );
+      } else {
+        const newFav = {
+          id: pokemon.id,
+          name: pokemon.name,
+          image: pokemon.image,
+          types: pokemon.types || [],
+        };
+        return [...prev, newFav];
+      }
+    });
+  };
+
+  const isFavorite = (name) =>
+    favorites.some((f) => f.name.toLowerCase() === name?.toLowerCase());
 
   // Functie om een nieuw team aan te maken
   const handleCreateTeam = (teamName) => {
@@ -123,11 +169,30 @@ function App() {
   return (
     <>
       <Header />
-      <Navigation />
+      <Navigation favoritesCount={favorites.length} />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/list" element={<List />} />
+          <Route
+            path="/list"
+            element={
+              <List
+                favorites={favorites}
+                onToggleFavorite={handleToggleFavorite}
+              />
+            }
+          />
+          <Route
+            path="/favorites"
+            element={
+              <Favorites
+                favorites={favorites}
+                onToggleFavorite={handleToggleFavorite}
+                onAddToTeam={handleAddToTeam}
+                teams={teams}
+              />
+            }
+          />
           <Route
             path="/pokemon/:name"
             element={
@@ -136,6 +201,8 @@ function App() {
                 onAddToTeam={handleAddToTeam}
                 onCreateTeam={handleCreateTeam}
                 onDeleteTeam={handleDeleteTeam}
+                isFavorite={isFavorite}
+                onToggleFavorite={handleToggleFavorite}
               />
             }
           />
@@ -147,6 +214,8 @@ function App() {
                 onAddToTeam={handleAddToTeam}
                 onCreateTeam={handleCreateTeam}
                 onDeleteTeam={handleDeleteTeam}
+                isFavorite={isFavorite}
+                onToggleFavorite={handleToggleFavorite}
               />
             }
           />

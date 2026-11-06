@@ -1,10 +1,25 @@
 import { Link } from 'react-router-dom';
 
-function PokemonCard({ name, image, types = [], id, extraAction }) {
+function PokemonCard({ name, image, types = [], id, extraAction, isFavorite, onToggleFavorite }) {
   const displayImage = image || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png';
 
   return (
     <div className="card">
+      {onToggleFavorite && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onToggleFavorite({ id, name, image: displayImage, types });
+          }}
+          className={`btn-favorite ${isFavorite ? 'active' : ''}`}
+          title={isFavorite ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
+          aria-label={isFavorite ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
+        >
+          {isFavorite ? '❤️' : '🤍'}
+        </button>
+      )}
       {id && <span className="card-id">#{String(id).padStart(3, '0')}</span>}
       <div className="card-image-wrapper">
         <img src={displayImage} alt={name} className="card-image" />
